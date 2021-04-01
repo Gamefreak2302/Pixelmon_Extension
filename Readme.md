@@ -7,8 +7,8 @@ It's purpose is to extend certain aspects of pixelmon with certain features it's
 So far this plugin contains: 
 - Tokens: Change pokemon stats by right clicking with item
 - Catchrates: Change catchrate of pokemons 
-- Planned additions: Make tokens have a virtual storage (add tokens to /pe readtoken <token> ) 
 
+Planned additions: Make tokens have a virtual storage (add tokens to /pe readtoken <token> ) 
 
 ## Commands
 
