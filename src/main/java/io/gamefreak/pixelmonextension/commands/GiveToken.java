@@ -3,7 +3,6 @@ package io.gamefreak.pixelmonextension.commands;
 import io.gamefreak.pixelmonextension.Pixelmonextension;
 import io.gamefreak.pixelmonextension.token.PixelmonToken;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
-import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;

@@ -20,7 +20,6 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.cause.EventContextKeys;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
-import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
@@ -41,7 +40,8 @@ import static io.gamefreak.pixelmonextension.ServerStats.*;
         description = DESCRIPTION,
         authors = {
                 AUTHOR
-        }
+        },
+        version = VERSION
 )
 public class Pixelmonextension {
 
