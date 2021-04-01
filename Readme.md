@@ -21,13 +21,7 @@ Permission: pixelmonextension.admin.givetoken
 
 Usage: /pe readtoken (\<player\>)   
 Description: Read unclaimed tokens  
-Permissions: pixelmonextension.readtoken.base (own tokens) , pixelmonextension.readtoken.others (others tokens)  
-  
-### Info
-
-Usage: /pe info \<Token\>  
-Description: Gives information about a given token  
-Permission: pixelmonextension.info  
+Permissions: pixelmonextension.readtoken.base (own tokens) , pixelmonextension.readtoken.others (others tokens)
   
 ### Claim token
 
@@ -53,3 +47,14 @@ Usage: /pe reload
 Description: reload config (tokens will be updated automatically)  
 Permission: pixelmonextension.admin.reload  
 
+### Extra notes
+- Tokens can not be placed 
+- Tokens can not handle nbt data yet
+- Tokens always have an enchanted look
+
+### Warning
+- This plugin is created by Gamefreak_2302 , claiming it to be yours is not allowed. 
+- Selling this plugin is not allowed.
+- This plugin only requires pixelmon.
+- I'm still not the best, bugs can occur (please let me know)
+- Token changes don't need /pe reload to be updated 

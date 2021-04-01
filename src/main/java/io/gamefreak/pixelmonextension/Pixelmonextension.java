@@ -144,7 +144,7 @@ public class Pixelmonextension {
                             if (token.checkValid(pokemon, player)) {
                                 player.getItemInHand(HandTypes.MAIN_HAND).get().setQuantity(player.getItemInHand(HandTypes.MAIN_HAND).get().getQuantity() - 1);
                                 token.activate(pokemon, player);
-                                db.UpdatePixelmonTokenOfUuid(player.getUniqueId());
+                                logger.info(player + " has used a " + token.getDisplayName());
                             }//end token valid
                         } // end check entity
                     }// end check tokentype

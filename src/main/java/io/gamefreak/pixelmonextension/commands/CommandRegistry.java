@@ -56,13 +56,6 @@ public class CommandRegistry {
                             .executor(new Reload())
                             .description(Text.of(TextColors.GOLD, "Reloads configs"))
                             .permission("pixelmonextension.admin.reload").build(), "reload")
-                    .child(CommandSpec.builder()
-                            .executor(new Info())
-                            .arguments(
-                                    GenericArguments.firstParsing(GenericArguments.enumValue(Text.of("token"), TokenTypes.TokenName.class))
-                            )
-                            .description(Text.of(TextColors.GOLD, "Give information about given token"))
-                            .permission("pixelmonextension.info").build(), "info")
 
                     .build();
 

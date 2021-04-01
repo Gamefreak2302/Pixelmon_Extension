@@ -14,6 +14,7 @@ import org.spongepowered.api.item.enchantment.Enchantment;
 import org.spongepowered.api.item.enchantment.EnchantmentTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.IOException;
@@ -105,7 +106,9 @@ public abstract class PixelmonToken {
                 .build();
         Enchantment en = Enchantment.builder().type(EnchantmentTypes.UNBREAKING).level(1).build();
         List<Enchantment> ens = Arrays.asList(en);
+        List<Text> lore = Arrays.asList(Text.of(TextColors.DARK_PURPLE,info()),Text.of(TextColors.DARK_PURPLE,"right-click pokemon to use"), Text.of(TextColors.DARK_GRAY,"token id:" + name.name().toLowerCase()));
         stack.offer(Keys.ITEM_ENCHANTMENTS,ens);
+        stack.offer(Keys.ITEM_LORE,lore);
 
         //EnchantmentData enchantmentData = stack.getOrCreate(EnchantmentData.class).get();
         return stack;
