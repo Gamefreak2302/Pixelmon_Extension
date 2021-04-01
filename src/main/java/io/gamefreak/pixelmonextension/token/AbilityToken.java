@@ -1,0 +1,67 @@
+package io.gamefreak.pixelmonextension.token;
+
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.entities.pixelmon.abilities.AbilityBase;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+
+import java.io.IOException;
+
+public class AbilityToken extends PixelmonToken{
+
+    public AbilityToken(){
+
+        this.displayName = "&aAbilityToken";
+        this.name = TokenTypes.TokenName.Ability;
+        this.setInfo();
+        //this.item = createItem(ItemTypes.NETHER_STAR);
+    }
+    @Override
+    public boolean checkValid(Pokemon pokemon, Player player) {
+        if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
+            player.sendMessage(Text.of(TextColors.RED,"This is not your pokemon"));
+            return false;
+        }
+        if(pokemon.getBaseStats().abilities.length == 1){
+            player.sendMessage(Text.of(TextColors.RED, pokemon.getDisplayName() + " does not have a different ability"));
+            return false;
+        }
+        String[] abilities = pokemon.getBaseStats().abilities;
+        // check if pokemon has 2 Non-hidden abilities
+        if((abilities[0] == null ||abilities[1] == null) && !pokemon.getAbility().getName().equalsIgnoreCase(abilities[2])){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does not have a different non-hidden ability"));
+            return false;
+        }
+
+        if(!TokenConfigSettings.allowModification(pokemon.getSpecies())){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified."));
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void activate(Pokemon pokemon, Player player) {
+
+        AbilityBase ab = null;
+        int number = -1;
+        if(pokemon.getAbilitySlot() == 0){
+            number = 1;
+            ab = AbilityBase.getAbility(pokemon.getBaseStats().abilities[1]).get();
+        }else{
+            number = 0;
+            ab = AbilityBase.getAbility(pokemon.getBaseStats().abilities[0]).get();
+        }
+
+        pokemon.setAbilitySlot(number);
+        player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + " now has the ability " + ab.getName()));
+
+    }
+
+    @Override
+    public String info() {
+        return "Change the ability of the pokemon to a non-hidden ability";
+    }
+}

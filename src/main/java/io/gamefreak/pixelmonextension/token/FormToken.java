@@ -1,0 +1,71 @@
+package io.gamefreak.pixelmonextension.token;
+
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.enums.EnumSpecies;
+import com.pixelmonmod.pixelmon.enums.forms.IEnumForm;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+import java.util.Collections;
+import java.util.List;
+
+public class FormToken extends PixelmonToken{
+
+    List<IEnumForm> forms;
+    public FormToken(){
+        this.displayName = "&aForm token";
+        this.name = TokenTypes.TokenName.Form;
+        this.setInfo();
+        //this.item = this.createItem(ItemTypes.NETHER_STAR);
+    }
+    @Override
+    public boolean checkValid(Pokemon pokemon, Player player) {
+
+
+        if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
+            player.sendMessage(Text.of(TextColors.RED,"This pokemon is not yours."));
+            return false;
+        }
+        if(!TokenConfigSettings.allowModification(pokemon.getSpecies())){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified."));
+            return false;
+        }
+
+        forms = pokemon.getSpecies().getPossibleForms(false);
+        IEnumForm temp = forms.stream().filter(s -> s.getLocalizedName().equalsIgnoreCase("giveaway")).findFirst().orElse(null);
+        if(temp != null){
+            forms.remove(temp);
+        }
+        if(pokemon.getSpecies().getPossibleForms(false).size() == 1 ){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does not have any other forms"));
+            return false;
+        }
+        if(pokemon.getSpecies() == EnumSpecies.Zygarde){
+            player.sendMessage(Text.of(TextColors.RED,"Can not change zygardes form"));
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void activate(Pokemon pokemon, Player player) {
+
+
+        IEnumForm form;
+        Collections.shuffle(forms);
+        if(forms.get(0) == pokemon.getFormEnum()){
+            form= forms.get(1);
+        }else{
+            form= forms.get(0);
+        }
+        pokemon.setForm(form);
+        String formname = form.getLocalizedName().equalsIgnoreCase("None")?"Normal":form.getLocalizedName();
+        player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + " now has form " + formname ));
+
+    }
+
+    @Override
+    public String info() {
+        return "change form of pokemon if he has 1";
+    }
+}
