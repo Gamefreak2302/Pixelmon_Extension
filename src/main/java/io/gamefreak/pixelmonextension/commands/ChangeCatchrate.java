@@ -15,7 +15,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 public class ChangeCatchrate implements CommandExecutor {
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+    public CommandResult execute(CommandSource src, CommandContext args) {
 
         CommandResult success = CommandResult.success();
 
@@ -34,6 +34,7 @@ public class ChangeCatchrate implements CommandExecutor {
 
         if(rate < 1){
             src.sendMessage(Text.of(TextColors.RED,"Catch rate can not be lower then 1"));
+            return CommandResult.success();
         }
 
         Pixelmonextension.registry.addCatchrate(ES,rate);
