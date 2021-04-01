@@ -44,7 +44,7 @@ public class GiveToken implements CommandExecutor {
 
         if(tk == null){
 
-            src.sendMessage(Text.of(TextColors.RED,"Token can not be empty and "));
+            src.sendMessage(Text.of(TextColors.RED,"Token can not be empty or does not exist"));
             return success;
         }
 

@@ -129,32 +129,42 @@ public abstract class PixelmonToken {
                 return false;
             }
 
-            String display = type.getNode("name").getString();
-            if (display != null && !display.isEmpty()) {
-                displayName = type.getNode("name").getString().trim();
+            if(!type.getNode("name").isVirtual()) {
+                String display = type.getNode("name").getString();
+                if (display != null && !display.isEmpty()) {
+                    displayName = display.trim();
+                }
             }
 
             int damage = 0;
-            if(!type.getNode("damage").isEmpty() && type.getNode("damage").getInt() > 0){
-                damage = type.getNode("damage").getInt();
-            }
-
-            String itemid = type.getNode("id").getString();
-            if (type.getNode("id") != null && !itemid.isEmpty()) {
-                itemid = itemid.trim();
-                if (Sponge.getRegistry().getType(ItemType.class, itemid).isPresent()) {
-                    itemtype = Sponge.getRegistry().getType(ItemType.class, itemid).get();
-                } else {
-                    Pixelmonextension.INSTANCE.logger.error(itemid + " is not a valid item");
+            if(!type.getNode("damage").isVirtual()) {
+                if (!type.getNode("damage").isEmpty() && type.getNode("damage").getInt() > 0) {
+                    damage = type.getNode("damage").getInt();
                 }
-
             }
 
-            if (itemtype == null) {
-                this.item = createItem(ItemTypes.NETHER_STAR,damage);
-            } else {
-                this.item = createItem(itemtype,damage);
+            if(!type.getNode("id").isVirtual()) {
+                String itemid = type.getNode("id").getString();
+                if (type.getNode("id") != null && !itemid.isEmpty()) {
+                    itemid = itemid.trim();
+                    if (Sponge.getRegistry().getType(ItemType.class, itemid).isPresent()) {
+                        itemtype = Sponge.getRegistry().getType(ItemType.class, itemid).get();
+                    } else {
+                        itemtype = ItemTypes.NETHER_STAR;
+                        Pixelmonextension.INSTANCE.logger.error(itemid + " is not a valid item");
+                    }
+
+                } else {
+                    itemtype = ItemTypes.NETHER_STAR;
+                    Pixelmonextension.INSTANCE.logger.error("item id of " + name.name() + " is invalid or missing");
+                }
+            }else{
+                itemtype = ItemTypes.NETHER_STAR;
+                Pixelmonextension.INSTANCE.logger.error("item id of \"" + name.name() + "\" is missing");
             }
+
+            this.item = createItem(itemtype,damage);
+
 
         } catch (IOException e) {
             e.printStackTrace();
