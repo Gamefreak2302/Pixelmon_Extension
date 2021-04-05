@@ -6,6 +6,9 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SizeUpToken extends PixelmonToken{
 
     public SizeUpToken(){
@@ -80,7 +83,8 @@ public class SizeUpToken extends PixelmonToken{
     }
 
     @Override
-    public String info() {
-        return "Size up a pokemon by 1 stage";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to make it bigger"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

@@ -28,7 +28,9 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static io.gamefreak.pixelmonextension.ServerStats.*;
@@ -76,19 +78,21 @@ public class Pixelmonextension {
         dbMigrationPath = configDir.resolve("data.mv.db");
         db = new Database();
 
+        if (!Files.exists(configDir.resolve("main.conf"))) {
+                //Sponge.getAssetManager().getAsset(pC, "main.conf").get().copyToFile(configDir.resolve("main.conf"));
+                pC.getAsset("main.conf").ifPresent(asset -> {
+                    try {
+                        //configDir.resolve("main.conf");
+                        asset.copyToDirectory(configDir);
+                    } catch (IOException e) {
 
-        if (Sponge.getAssetManager().getAsset(pC, "main.conf").isPresent()) {
-            logger.info("main.conf is present");
-            try {
-                Sponge.getAssetManager().getAsset(pC, "main.conf").get().copyToFile(configDir.resolve("main.conf"));
+                        e.printStackTrace();
+                    }
+                });
 
-            } catch (IOException e) {
-                logger.error("Could not create file");
-                e.printStackTrace();
-            }
         }
-
         mainConfig = HoconConfigurationLoader.builder().setPath(configDir.resolve("main.conf")).build();
+
 
 
     }

@@ -51,7 +51,8 @@ public class PokeballToken extends PixelmonToken {
     }
 
     @Override
-    public String info() {
-        return "Change the pokeball of the pokemon to a random pokeball";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to change their pokeball"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

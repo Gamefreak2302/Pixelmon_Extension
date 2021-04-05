@@ -13,37 +13,37 @@ Planned additions: Make tokens have a virtual storage (add tokens to /pe readtok
 ## Commands
 
 ### Give token 
-Usage: /pe givetoken (\<player\>) (\<amount\>)  
+Usage: /token give (\<player\>) (\<amount\>)  
 Description: Give player a token, if inventory is full (can't add all tokens) , add token to virtual list  
 Permission: pixelmonextension.admin.givetoken  
   
 ### Read token
 
-Usage: /pe readtoken (\<player\>)   
+Usage: /token bal (\<player\>)   
 Description: Read unclaimed tokens  
 Permissions: pixelmonextension.readtoken.base (own tokens) , pixelmonextension.readtoken.others (others tokens)
   
 ### Claim token
 
-Usage: /pe claimtoken \<Token\>  
+Usage: /token claim \<Token\>  
 Description: Claims a token from your unclaimed tokens  
 Permission: pixelmonextension.claimtoken
   
 ### Change catchrate
 
-Usage: /pe changecatchrate \<Pokemon\> \<catchrate\>  
+Usage: /token changecatchrate \<Pokemon\> \<catchrate\>  
 Description: changes a catchrate of a pokemon  
 Permission: pixelmonextension.admin.changecatchrate  
   
 ### Read catchrate
 
-Usage: /pe readcatchrate   
+Usage: /token readcatchrate   
 Description: Get a list of pokemon and their updated catchrates (updated by this plugin)  
 Permission: pixelmonextension.admin.readcatchrate  
   
 ### Reload
 
-Usage: /pe reload  
+Usage: /token reload  
 Description: reload config (tokens will be updated automatically)  
 Permission: pixelmonextension.admin.reload  
 

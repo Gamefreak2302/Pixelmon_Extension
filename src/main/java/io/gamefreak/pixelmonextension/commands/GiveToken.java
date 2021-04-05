@@ -49,12 +49,13 @@ public class GiveToken implements CommandExecutor {
 
 
         token = TokenTypes.getTokenFromTokenName(tk);
-        token.getItem().setQuantity(amount);
 
         if(token == null){
             src.sendMessage(Text.of(TextColors.RED,"Invalid token"));
             return success;
         }
+        token.getItem().setQuantity(amount);
+
         if(player.getInventory().first().canFit(token.getItem()) ){
             if (player.isOnline()) {
                 player.getInventory().offer(token.getItem());
@@ -69,7 +70,7 @@ public class GiveToken implements CommandExecutor {
             src.sendMessage(Text.of(TextColors.RED,"Inventory of " + player.getName() + " is full. Adding to token list"));
             Pixelmonextension.registry.addUnclaimedToken(player.getUniqueId(),token.getName(),amount);
             if (player.isOnline())
-                player.getPlayer().get().sendMessage(Text.of(TextColors.RED,"Some tokens were sent to your token list, please use /pe readtoken redeem to redeem"));
+                player.getPlayer().get().sendMessage(Text.of(TextColors.RED,"Some tokens were sent to your token list, please use /token balance redeem to redeem"));
             Pixelmonextension.db.UpdatePixelmonTokenOfUuid(player.getUniqueId());
 
         }

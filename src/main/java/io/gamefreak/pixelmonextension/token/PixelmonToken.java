@@ -55,7 +55,7 @@ public abstract class PixelmonToken {
      * Give information about a token
      * @return information
      */
-    public abstract String info();
+    public abstract List<Text> info();
 
     /**
      * returns the item of the token, if token is invalid, returns stick with name Bad token
@@ -106,9 +106,8 @@ public abstract class PixelmonToken {
                 .build();
         Enchantment en = Enchantment.builder().type(EnchantmentTypes.UNBREAKING).level(1).build();
         List<Enchantment> ens = Arrays.asList(en);
-        List<Text> lore = Arrays.asList(Text.of(TextColors.DARK_PURPLE,info()),Text.of(TextColors.DARK_PURPLE,"right-click pokemon to use"), Text.of(TextColors.DARK_GRAY,"token id:" + name.name().toLowerCase()));
         stack.offer(Keys.ITEM_ENCHANTMENTS,ens);
-        stack.offer(Keys.ITEM_LORE,lore);
+        stack.offer(Keys.ITEM_LORE,info());
 
         //EnchantmentData enchantmentData = stack.getOrCreate(EnchantmentData.class).get();
         return stack;
@@ -134,21 +133,21 @@ public abstract class PixelmonToken {
 
             if(!type.getNode("name").isVirtual()) {
                 String display = type.getNode("name").getString();
-                if (display != null && !display.isEmpty()) {
+                if (display != null && !display.trim().equalsIgnoreCase("")) {
                     displayName = display.trim();
                 }
             }
 
             int damage = 0;
             if(!type.getNode("damage").isVirtual()) {
-                if (!type.getNode("damage").isEmpty() && type.getNode("damage").getInt() > 0) {
+                if (type.getNode("damage").getValue() != null && type.getNode("damage").getInt() > 0) {
                     damage = type.getNode("damage").getInt();
                 }
             }
 
             if(!type.getNode("id").isVirtual()) {
                 String itemid = type.getNode("id").getString();
-                if (type.getNode("id") != null && !itemid.isEmpty()) {
+                if (type.getNode("id") != null && !itemid.trim().equalsIgnoreCase("")) {
                     itemid = itemid.trim();
                     if (Sponge.getRegistry().getType(ItemType.class, itemid).isPresent()) {
                         itemtype = Sponge.getRegistry().getType(ItemType.class, itemid).get();

@@ -6,6 +6,9 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class GenderToken extends PixelmonToken{
 
 
@@ -53,9 +56,9 @@ public class GenderToken extends PixelmonToken{
             player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + " is now " + pokemon.getGender()));
         }
     }
-
     @Override
-    public String info() {
-        return "Change the gender of the pokemon if possible";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to change their gender"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

@@ -6,6 +6,8 @@ import com.pixelmonmod.pixelmon.enums.forms.IEnumForm;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,7 +67,8 @@ public class FormToken extends PixelmonToken{
     }
 
     @Override
-    public String info() {
-        return "change form of pokemon if he has 1";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to change their form"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

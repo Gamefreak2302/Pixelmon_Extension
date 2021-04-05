@@ -24,14 +24,14 @@ public class CommandRegistry {
 
                             )
                             .description(Text.of(TextColors.GOLD, "Give token"))
-                            .permission("pixelmonextension.admin.givetoken").build(), "givetoken")
+                            .permission("pixelmonextension.admin.give").build(), "give")
                     .child(CommandSpec.builder()
                             .executor(new ReadToken())
                             .arguments(
                                     GenericArguments.optional(GenericArguments.user(Text.of("player")))
                             )
                             .description(Text.of(TextColors.GOLD, "Read tokens and the amount"))
-                            .permission("pixelmonextension.readToken.base").build(), "readtoken")
+                            .permission("pixelmonextension.balance.base").build(), "bal","balance","list")
                     .child(CommandSpec.builder()
                             .executor(new ClaimToken())
                             .arguments(
@@ -39,7 +39,7 @@ public class CommandRegistry {
                                     GenericArguments.optional(GenericArguments.integer(Text.of("amount")))
                             )
                             .description(Text.of(TextColors.GOLD, "Read tokens and the amount"))
-                            .permission("pixelmonextension.claimtoken").build(), "claimtoken")
+                            .permission("pixelmonextension.claim").build(), "claim")
                     .child(CommandSpec.builder()
                             .executor(new ChangeCatchrate())
                             .arguments(
@@ -59,6 +59,8 @@ public class CommandRegistry {
 
                     .build();
 
-            Sponge.getCommandManager().register(Pixelmonextension.INSTANCE, maincommand, "pixelmonextension","pe");
+
+
+            Sponge.getCommandManager().register(Pixelmonextension.INSTANCE, maincommand , "token","tk");
     }
 }

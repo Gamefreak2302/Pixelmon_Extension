@@ -6,6 +6,9 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class DefIvToken extends PixelmonToken {
 
 
@@ -41,7 +44,8 @@ public class DefIvToken extends PixelmonToken {
     }
 
     @Override
-    public String info() {
-        return "Turn the Defense ivs of the player to max ivs";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to maximize their defense IV"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

@@ -5,6 +5,9 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class HiddenAbilityToken extends PixelmonToken {
 
     public HiddenAbilityToken(){
@@ -46,7 +49,8 @@ public class HiddenAbilityToken extends PixelmonToken {
     }
 
     @Override
-    public String info() {
-        return "Gives pokemon his hidden ability if he has 1";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to give it his Hidden ability"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

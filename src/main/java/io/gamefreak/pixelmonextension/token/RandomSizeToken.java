@@ -55,7 +55,8 @@ public class RandomSizeToken extends PixelmonToken {
     }
 
     @Override
-    public String info() {
-        return "Changes the pokemons size to a random size";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to change their size"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

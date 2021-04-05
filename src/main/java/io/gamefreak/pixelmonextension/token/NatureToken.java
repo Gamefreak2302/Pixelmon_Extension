@@ -46,7 +46,8 @@ public class NatureToken extends PixelmonToken {
     }
 
     @Override
-    public String info() {
-        return "Change the nature of the pokemon to a random nature different from the current nature";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to change their nature"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

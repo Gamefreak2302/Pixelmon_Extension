@@ -6,6 +6,9 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import io.gamefreak.pixelmonextension.token.TokenTypes.TokenName;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ShinyToken extends PixelmonToken{
 
 
@@ -48,7 +51,8 @@ public class ShinyToken extends PixelmonToken{
     }
 
     @Override
-    public String info() {
-        return "Turn a pokemon shiny";
+    public List<Text> info() {
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to turn it shiny"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+
     }
 }

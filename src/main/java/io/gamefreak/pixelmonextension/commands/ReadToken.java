@@ -17,7 +17,7 @@ public class ReadToken implements CommandExecutor {
 
 
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+    public CommandResult execute(CommandSource src, CommandContext args) {
 
         CommandResult success = CommandResult.success();
 
@@ -29,7 +29,7 @@ public class ReadToken implements CommandExecutor {
         if(us != null){
 
             user = us;
-            if(!user.hasPermission("pixelmonextension.readtoken.others")){
+            if(!user.hasPermission("pixelmonextension.balance.others")){
                 src.sendMessage(Text.of(TextColors.RED,"You don't have the permission to see others tokens"));
                 return CommandResult.success();
             }
