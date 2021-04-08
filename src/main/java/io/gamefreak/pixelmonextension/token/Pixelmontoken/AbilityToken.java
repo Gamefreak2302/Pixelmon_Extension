@@ -1,13 +1,13 @@
-package io.gamefreak.pixelmonextension.token;
+package io.gamefreak.pixelmonextension.token.Pixelmontoken;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.abilities.AbilityBase;
+import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 

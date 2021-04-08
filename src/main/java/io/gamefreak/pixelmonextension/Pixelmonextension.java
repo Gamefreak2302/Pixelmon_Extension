@@ -5,14 +5,16 @@ import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import io.gamefreak.pixelmonextension.commands.CommandRegistry;
 import io.gamefreak.pixelmonextension.storage.Database;
-import io.gamefreak.pixelmonextension.token.PixelmonToken;
-import io.gamefreak.pixelmonextension.token.TokenConfigSettings;
+import io.gamefreak.pixelmonextension.token.Pixelmontoken.PixelmonToken;
+import io.gamefreak.pixelmonextension.token.Pixelmontoken.TokenConfigSettings;
+import io.gamefreak.pixelmonextension.token.SpawnTokens.SpawnTokenLists;
+import io.gamefreak.pixelmonextension.token.SpawnTokens.SpawnTokens;
+import io.gamefreak.pixelmonextension.token.Token;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.slf4j.Logger;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.type.HandTypes;
@@ -23,12 +25,12 @@ import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.item.inventory.InteractItemEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -106,6 +108,7 @@ public class Pixelmonextension {
         db.ReadTokens();
         db.ReadCatchrates();
         new TokenConfigSettings();
+        new SpawnTokenLists();
     }
 
     /**
@@ -120,6 +123,7 @@ public class Pixelmonextension {
         db.ReadTokens();
         db.ReadCatchrates();
         new TokenConfigSettings();
+        new SpawnTokenLists();
     }
 
 
@@ -141,7 +145,7 @@ public class Pixelmonextension {
                 if ((boolean) stack.toContainer().get(DataQuery.of("UnsafeData", "IsToken")).orElse(false)) {
                     if (stack.toContainer().get(DataQuery.of("UnsafeData", "TokenType")).isPresent()) {
                         String tokenType = (String) stack.toContainer().get(DataQuery.of("UnsafeData", "TokenType")).get();
-                        PixelmonToken token = TokenTypes.getTokenFromTokenName(TokenTypes.getTokenNameFromString(tokenType));
+                        PixelmonToken token =(PixelmonToken)TokenTypes.getTokenFromTokenName(TokenTypes.getTokenNameFromString(tokenType));
 
                         if (e.getTargetEntity() instanceof EntityPixelmon && token != null) {
                             pokemon = ((EntityPixelmon) e.getTargetEntity()).getStoragePokemonData();
@@ -153,8 +157,27 @@ public class Pixelmonextension {
                         } // end check entity
                     }// end check tokentype
                 }//end check isToken
+
             }//end check item in hand
         } //end player
+    }
+
+    @Listener
+    public void OnRightCLick(InteractItemEvent.Secondary.MainHand e){
+
+        if(e.getSource() instanceof Player){
+            Player player = (Player) e.getSource();
+            ItemStack stack = e.getItemStack().createStack();
+            if((boolean) stack.toContainer().get(DataQuery.of("UnsafeData", "IsSpawnToken")).orElse(false)) {
+                if (stack.toContainer().get(DataQuery.of("UnsafeData", "TokenType")).isPresent()) {
+                    String tokenType = (String) stack.toContainer().get(DataQuery.of("UnsafeData", "TokenType")).get();
+                    SpawnTokens token = (SpawnTokens) TokenTypes.getTokenFromTokenName(TokenTypes.getTokenNameFromString(tokenType));
+                    player.getItemInHand(HandTypes.MAIN_HAND).get().setQuantity(player.getItemInHand(HandTypes.MAIN_HAND).get().getQuantity() - 1);
+                    token.activate(player);
+                    logger.info(player.getName() + " has used a " + token.getDisplayName());
+                }//End tokentype is present
+            }// end is spawn token
+        }
     }
 
     @Listener

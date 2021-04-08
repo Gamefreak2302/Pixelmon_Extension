@@ -1,5 +1,8 @@
 package io.gamefreak.pixelmonextension.token;
 
+import io.gamefreak.pixelmonextension.token.Pixelmontoken.*;
+import io.gamefreak.pixelmonextension.token.SpawnTokens.*;
+
 public class TokenTypes {
 
 
@@ -32,7 +35,7 @@ public class TokenTypes {
      * @param name Factory pattern for pixelmontoken
      * @return token which matches name
      */
-    public static PixelmonToken getTokenFromTokenName(TokenName name){
+    public static Token getTokenFromTokenName(TokenName name){
 
         switch (name){
             case Shiny:
@@ -67,6 +70,18 @@ public class TokenTypes {
                 return new FormToken();
             case RandomSize:
                 return new RandomSizeToken();
+            case randomUB:
+                return new RandomUbToken();
+            case randomShiny:
+                return new RandomShinyToken();
+            case randomLegend:
+                return new RandomLegendToken();
+            case randomNonSpecial:
+                return new RegularPokemonToken();
+            case randomShinyNonSpecial:
+                return new RandomShinyRegularToken();
+            case randomPokemon:
+                return new RandomPokemonToken();
             default:
                 return null;
         }
@@ -78,7 +93,11 @@ public class TokenTypes {
 
     public enum TokenName {
 
+        // modify tokens
         Shiny,SizeUp,SizeDown,Gender,MaxHPIvs,MaxAtkIvs,MaxDefIvs,MaxSpAtkIvs,MaxSpDefIvs,MaxSpeedIvs
         ,Nature,Ability,HiddenAbility,Pokeball, Form,RandomSize
+
+        //Spawn tokens
+        ,randomPokemon,randomShiny,randomLegend,randomUB,randomNonSpecial,randomShinyNonSpecial
     }
 }

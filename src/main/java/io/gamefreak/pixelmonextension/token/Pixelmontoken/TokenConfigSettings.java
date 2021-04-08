@@ -1,4 +1,4 @@
-package io.gamefreak.pixelmonextension.token;
+package io.gamefreak.pixelmonextension.token.Pixelmontoken;
 
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import io.gamefreak.pixelmonextension.Pixelmonextension;

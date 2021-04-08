@@ -1,4 +1,4 @@
-package io.gamefreak.pixelmonextension.token;
+package io.gamefreak.pixelmonextension.token.Pixelmontoken;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import org.spongepowered.api.entity.living.player.Player;

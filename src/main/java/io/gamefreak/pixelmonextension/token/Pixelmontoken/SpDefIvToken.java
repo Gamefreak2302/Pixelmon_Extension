@@ -1,7 +1,8 @@
-package io.gamefreak.pixelmonextension.token;
+package io.gamefreak.pixelmonextension.token.Pixelmontoken;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
+import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -9,20 +10,19 @@ import org.spongepowered.api.text.format.TextColors;
 import java.util.Arrays;
 import java.util.List;
 
-public class DefIvToken extends PixelmonToken {
+public class SpDefIvToken extends PixelmonToken {
 
-
-    public DefIvToken(){
-        this.displayName = "&aMax Defense token";
-        this.name = TokenTypes.TokenName.MaxDefIvs;
+    public SpDefIvToken(){
+        this.displayName = "&AMax Special Defense token";
+        this.name = TokenTypes.TokenName.MaxSpDefIvs;
         this.setInfo();
         //this.item = createItem(ItemTypes.NETHER_STAR);
     }
 
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
-        if(pokemon.getStats().ivs.defence == 31){
-            player.sendMessage(Text.of(TextColors.RED,"Defense already has max ivs"));
+        if(pokemon.getStats().ivs.specialDefence == 31){
+            player.sendMessage(Text.of(TextColors.RED,"Special defense already has max ivs"));
             return false;
         }
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
@@ -39,13 +39,13 @@ public class DefIvToken extends PixelmonToken {
     @Override
     public void activate(Pokemon pokemon, Player player) {
 
-        pokemon.getIVs().set(StatsType.Defence,31);
-        player.sendMessage(Text.of(TextColors.GREEN, pokemon.getDisplayName() + " now has max defense ivs"));
+        pokemon.getIVs().set(StatsType.SpecialDefence,31);
+        player.sendMessage(Text.of(TextColors.GREEN, pokemon.getDisplayName() + " now has max special defense ivs"));
     }
 
     @Override
     public List<Text> info() {
-        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to maximize their defense IV"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to maximize their special defense IV"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
 
     }
 }

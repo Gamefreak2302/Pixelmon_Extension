@@ -1,8 +1,12 @@
-package io.gamefreak.pixelmonextension.token;
+package io.gamefreak.pixelmonextension.token.SpawnTokens;
 
+import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-
+import com.pixelmonmod.pixelmon.api.storage.IStorageManager;
+import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import io.gamefreak.pixelmonextension.Pixelmonextension;
+import io.gamefreak.pixelmonextension.token.Token;
+import io.gamefreak.pixelmonextension.token.TokenTypes;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataQuery;
@@ -19,42 +23,20 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-/*
- * Possible tokens:
- *    - Pokeball token
- * */
-public abstract class PixelmonToken {
+public abstract class SpawnTokens implements Token {
+
+
+    public abstract void activate(Player player);
 
     protected String displayName;
     protected TokenTypes.TokenName name;
     protected ItemStack item;
 
 
-    /**
-     * Will check if the effect of the effect is available
-     * The effect is available when the condition is not met.
-     * An example when giving the fly possibility, check if the pokemon can not fly
-     *
-     * @param player  The player who uses the token
-     * @param pokemon The pokemon the token is used on
-     * @return true if all valid conditions are good
-     */
-    public abstract boolean checkValid(Pokemon pokemon, Player player);
-
-
-    /**
-     * It will activate the effect of the token.
-     * @param pokemon Pokemon it will be activated on
-     * @param player  Player who uses the token
-     */
-    public abstract void activate(Pokemon pokemon, Player player);
-
-    /**
-     * Give information about a token
-     * @return information
-     */
+    @Override
     public abstract List<Text> info();
 
     /**
@@ -67,18 +49,12 @@ public abstract class PixelmonToken {
         return item;
     }
 
-    /**
-     * get tokenname of token
-     * @return token name
-     */
+    @Override
     public TokenTypes.TokenName getName() {
         return name;
     }
 
-    /**
-     * Get the name of the token
-     * @return name for item
-     */
+    @Override
     public String getDisplayName() {
         return displayName;
     }
@@ -98,7 +74,7 @@ public abstract class PixelmonToken {
         stack = ItemStack.builder()
                 .fromContainer(stack.toContainer()
 
-                        .set(DataQuery.of("UnsafeData", "IsToken"), true)
+                        .set(DataQuery.of("UnsafeData", "IsSpawnToken"), true)
                         .set(DataQuery.of("UnsafeData", "TokenType"), name.name())
                         .set(DataQuery.of("UnsafeData","HideFlags"), 1)
                         .set(DataQuery.of("UnsafeDamage"),damage)
@@ -113,6 +89,7 @@ public abstract class PixelmonToken {
         return stack;
 
     }
+
 
     /**
      * reads and changes data following the configs
@@ -174,4 +151,18 @@ public abstract class PixelmonToken {
         return true;
     }
 
+    public Pokemon addPokemonToPlayer(Player player, List<EnumSpecies> list,boolean shiny){
+        Collections.shuffle(list);
+        EnumSpecies species = list.get(0);
+        Pokemon pokemon = Pixelmon.pokemonFactory.create(species);
+        pokemon.setShiny(shiny);
+        IStorageManager manager = Pixelmon.storageManager;
+        if(manager.getParty(player.getUniqueId()).hasSpace()){
+            manager.getParty(player.getUniqueId()).add(pokemon);
+        }else{
+            manager.getPCForPlayer(player.getUniqueId()).add(pokemon);
+            player.sendMessage(Text.of(TextColors.GRAY,pokemon.getDisplayName() + " has been added to your pc"));
+        }
+        return pokemon;
+    }
 }

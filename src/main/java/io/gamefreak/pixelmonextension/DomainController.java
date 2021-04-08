@@ -1,7 +1,8 @@
 package io.gamefreak.pixelmonextension;
 
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
-import io.gamefreak.pixelmonextension.token.PixelmonToken;
+import io.gamefreak.pixelmonextension.token.Pixelmontoken.PixelmonToken;
+import io.gamefreak.pixelmonextension.token.Token;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
@@ -140,7 +141,8 @@ public class DomainController {
                     player.sendMessage(Text.of(TextColors.RED,"You don't have that amount of unclaimed tokens"));
                     return false;
                 }
-                PixelmonToken token = TokenTypes.getTokenFromTokenName(name);
+
+                Token token = TokenTypes.getTokenFromTokenName(name);
                 ItemStack stack = ItemStack.builder().from(token.getItem()).quantity(amount).build();
                 if(!player.getInventory().first().canFit(stack)){
                     player.sendMessage(Text.of(TextColors.RED,"Not enough inventory space to take that amount of tokens"));

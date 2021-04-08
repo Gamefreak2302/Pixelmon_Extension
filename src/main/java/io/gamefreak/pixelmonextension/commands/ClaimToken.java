@@ -1,7 +1,8 @@
 package io.gamefreak.pixelmonextension.commands;
 
 import io.gamefreak.pixelmonextension.Pixelmonextension;
-import io.gamefreak.pixelmonextension.token.PixelmonToken;
+import io.gamefreak.pixelmonextension.token.Pixelmontoken.PixelmonToken;
+import io.gamefreak.pixelmonextension.token.Token;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -21,7 +22,7 @@ public class ClaimToken implements CommandExecutor {
 
         int amount = (int) args.getOne("amount").orElse(1);
         TokenTypes.TokenName tokenname = (TokenTypes.TokenName) args.getOne("token").orElse(null);
-        PixelmonToken token = null;
+        Token token = null;
         if(tokenname != null){
             token = TokenTypes.getTokenFromTokenName(tokenname);
         }

@@ -1,7 +1,8 @@
-package io.gamefreak.pixelmonextension.token;
+package io.gamefreak.pixelmonextension.token.Pixelmontoken;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
+import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -9,19 +10,19 @@ import org.spongepowered.api.text.format.TextColors;
 import java.util.Arrays;
 import java.util.List;
 
-public class SizeUpToken extends PixelmonToken{
+public class SizeDownToken extends PixelmonToken {
 
-    public SizeUpToken(){
-        this.name = TokenTypes.TokenName.SizeUp;
-        this.displayName = "Growth UP token";
+    public SizeDownToken(){
+        this.name = TokenTypes.TokenName.SizeDown;
+        this.displayName = "Growth DOWN token";
         this.setInfo();
         //this.item = createItem(ItemTypes.REDSTONE_TORCH);
     }
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
 
-        if(pokemon.getGrowth() == EnumGrowth.Ginormous){
-            player.sendMessage(Text.of(TextColors.RED, pokemon.getDisplayName() + " is already max size."));
+        if(pokemon.getGrowth() == EnumGrowth.Microscopic){
+            player.sendMessage(Text.of(TextColors.RED, pokemon.getDisplayName() + " is already minimum size."));
             return false;
         }
 
@@ -43,29 +44,29 @@ public class SizeUpToken extends PixelmonToken{
 
         EnumGrowth gr = null;
         switch (pokemon.getGrowth()){
-            case Microscopic:
-                gr = EnumGrowth.Pygmy;
-                break;
             case Pygmy:
-                gr = EnumGrowth.Runt;
+                gr = EnumGrowth.Microscopic;
                 break;
             case Runt:
-                gr = EnumGrowth.Small;
+                gr = EnumGrowth.Pygmy;
                 break;
             case Small:
-                gr = EnumGrowth.Ordinary;
+                gr = EnumGrowth.Runt;
                 break;
             case Ordinary:
-                gr = EnumGrowth.Huge;
+                gr = EnumGrowth.Small;
                 break;
             case Huge:
-                gr = EnumGrowth.Giant;
+                gr = EnumGrowth.Ordinary;
                 break;
             case Giant:
-                gr = EnumGrowth.Enormous;
+                gr = EnumGrowth.Huge;
                 break;
             case Enormous:
-                gr = EnumGrowth.Ginormous;
+                gr = EnumGrowth.Giant;
+                break;
+            case Ginormous:
+                gr = EnumGrowth.Enormous;
                 break;
             default:
                 gr = null;
@@ -84,7 +85,7 @@ public class SizeUpToken extends PixelmonToken{
 
     @Override
     public List<Text> info() {
-        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to make it bigger"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to make it smaller"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
 
     }
 }

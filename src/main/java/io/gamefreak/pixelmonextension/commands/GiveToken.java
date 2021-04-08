@@ -1,7 +1,7 @@
 package io.gamefreak.pixelmonextension.commands;
 
 import io.gamefreak.pixelmonextension.Pixelmonextension;
-import io.gamefreak.pixelmonextension.token.PixelmonToken;
+import io.gamefreak.pixelmonextension.token.Token;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -20,7 +20,7 @@ public class GiveToken implements CommandExecutor {
         User player = (User) args.getOne("player").orElse(null);
         TokenTypes.TokenName tk = (TokenTypes.TokenName) args.getOne("token").orElse(null);
         int amount = (int) args.getOne("amount").orElse(1);
-        PixelmonToken token;
+        Token token;
 
         if(src instanceof Player){
             if(player == null){
