@@ -28,7 +28,7 @@ public class ReadToken implements CommandExecutor {
         if(us != null){
 
             user = us;
-            if(!user.hasPermission("pixelmonextension.balance.others")){
+            if(!src.hasPermission("pixelmonextension.balance.others")){
                 src.sendMessage(Text.of(TextColors.RED,"You don't have the permission to see others tokens"));
                 return CommandResult.success();
             }

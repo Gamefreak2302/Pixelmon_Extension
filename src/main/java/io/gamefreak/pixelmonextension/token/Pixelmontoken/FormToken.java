@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FormToken extends PixelmonToken{
 
-    List<IEnumForm> forms;
+    private List<IEnumForm> forms;
     public FormToken(){
         this.displayName = "&aForm token";
         this.name = TokenTypes.TokenName.Form;
@@ -24,7 +24,8 @@ public class FormToken extends PixelmonToken{
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
 
-
+        EnumSpecies[] species = {EnumSpecies.Zygarde,EnumSpecies.Kyogre,EnumSpecies.Groudon};
+        List<EnumSpecies> blacklist = Arrays.asList(species);
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
             player.sendMessage(Text.of(TextColors.RED,"This pokemon is not yours."));
             return false;
@@ -43,8 +44,8 @@ public class FormToken extends PixelmonToken{
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does not have any other forms"));
             return false;
         }
-        if(pokemon.getSpecies() == EnumSpecies.Zygarde){
-            player.sendMessage(Text.of(TextColors.RED,"Can not change zygardes form"));
+        if( blacklist.contains(pokemon.getSpecies())){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does not have any other valid forms"));
             return false;
         }
         return true;
@@ -63,7 +64,7 @@ public class FormToken extends PixelmonToken{
         }
         pokemon.setForm(form);
         String formname = form.getLocalizedName().equalsIgnoreCase("None")?"Normal":form.getLocalizedName();
-        player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + " now has form " + formname ));
+        player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + " now has form" + formname ));
 
     }
 
