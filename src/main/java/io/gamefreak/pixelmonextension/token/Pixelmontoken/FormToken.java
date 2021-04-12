@@ -25,7 +25,7 @@ public class FormToken extends PixelmonToken{
     public boolean checkValid(Pokemon pokemon, Player player) {
 
         EnumSpecies[] species = {EnumSpecies.Zygarde,EnumSpecies.Kyogre,EnumSpecies.Groudon};
-        List<EnumSpecies> blacklist = Arrays.asList(species);
+        List<EnumSpecies> formblacklist = Arrays.asList(species);
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
             player.sendMessage(Text.of(TextColors.RED,"This pokemon is not yours."));
             return false;
@@ -44,7 +44,7 @@ public class FormToken extends PixelmonToken{
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does not have any other forms"));
             return false;
         }
-        if( blacklist.contains(pokemon.getSpecies())){
+        if( formblacklist.contains(pokemon.getSpecies())){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does not have any other valid forms"));
             return false;
         }
