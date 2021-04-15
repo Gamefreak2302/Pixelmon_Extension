@@ -5,17 +5,19 @@ import io.gamefreak.pixelmonextension.token.Pixelmontoken.PixelmonToken;
 import io.gamefreak.pixelmonextension.token.Token;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 
 import java.util.*;
 
-public class DomainController {
+public class Registry {
 
 
     /*
@@ -35,7 +37,7 @@ public class DomainController {
     /**
      * constructor, will initialize lists
      */
-    public DomainController(){
+    public Registry(){
         this.PixelmontokensUnclaimed = new HashMap<>();
         this.catchrates = new HashMap<>();
     }

@@ -24,7 +24,10 @@ public class FormToken extends PixelmonToken{
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
 
-        EnumSpecies[] species = {EnumSpecies.Zygarde,EnumSpecies.Kyogre,EnumSpecies.Groudon};
+        EnumSpecies[] species = {EnumSpecies.Zygarde,EnumSpecies.Kyogre,EnumSpecies.Groudon,EnumSpecies.Necrozma,EnumSpecies.Kyurem,EnumSpecies.Deoxys,
+        EnumSpecies.Thundurus,EnumSpecies.Tornadus,EnumSpecies.Landorus,EnumSpecies.Meloetta,EnumSpecies.Keldeo,EnumSpecies.Xerneas,EnumSpecies.Hoopa, EnumSpecies.Arceus, EnumSpecies.Silvally,
+        EnumSpecies.Shaymin, EnumSpecies.Giratina,EnumSpecies.Cherrim
+        };
         List<EnumSpecies> formblacklist = Arrays.asList(species);
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
             player.sendMessage(Text.of(TextColors.RED,"This pokemon is not yours."));

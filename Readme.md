@@ -1,29 +1,37 @@
 # Pixelmon Extension
 
 # What is it?
-Pixelmon extension is a plugin (in building progress) created by Gamefreak_2302.
-It's purpose is to extend certain aspects of pixelmon with certain features it's been missing. 
+A token plugin for pixelmon. Tokens which either changes a pokemon or give a pokemon.  
+Apart from tokens, there's also a possibility to change catchrates of pokemon with a single command.  
 
 So far this plugin contains: 
-- Tokens: Change pokemon stats by right clicking with item
+- Tokens: Change pokemons stats and looks
+- Tokens: Give pokemon on click with token
 - Catchrates: Change catchrate of pokemons 
 
-Planned additions: Make tokens have a virtual storage (add tokens to /pe readtoken <token> ) 
 
+Planned additions:
+
+- Make external database possible  
+- Add blacklist different from each token (like necrozma immune for form token)
+- Better error handler ( make errors more visible )
+- Make lore customizable ( the id will stay )  
+- Translations ( english - dutch ) ?? ( not determined yet )
 ## Commands
 
-### Give token 
+### Token give 
 Usage: /token give (\<player\>) (\<amount\>)  
 Description: Give player a token, if inventory is full (can't add all tokens) , add token to virtual list  
 Permission: pixelmonextension.admin.givetoken  
   
-### Read token
+### Token bal
 
-Usage: /token bal (\<player\>)   
+Usage: /token balance (\<player\>)  
+Alias: bal,balance,list  
 Description: Read unclaimed tokens  
 Permissions: pixelmonextension.readtoken.base (own tokens) , pixelmonextension.readtoken.others (others tokens)
   
-### Claim token
+### Token Claim
 
 Usage: /token claim \<Token\>  
 Description: Claims a token from your unclaimed tokens  
@@ -47,14 +55,19 @@ Usage: /token reload
 Description: reload config (tokens will be updated automatically)  
 Permission: pixelmonextension.admin.reload  
 
+### Convert
+Usage: /token convert (< Tokenname >) (< amount >)  
+Description: Convert tokens from physical to virtual form and from virtual to physical  
+Permission: pixelmonextension.convert  
+
 ### Extra notes
 - Tokens can not be placed 
 - Tokens can not handle nbt data yet
-- Tokens always have an enchanted look
-
+- Tokens always have an enchanted look  
+- On clicking a token in token balance, converts 1 token
+- Token changes don't need /token reload to be updated
 ### Warning
 - This plugin is created by Gamefreak_2302 , claiming it to be yours is not allowed. 
-- Selling this plugin is not allowed.
+- Selling this plugin is not allowed without permission.
 - This plugin only requires pixelmon.
 - I'm still not the best, bugs can occur (please let me know)
-- Token changes don't need /pe reload to be updated 

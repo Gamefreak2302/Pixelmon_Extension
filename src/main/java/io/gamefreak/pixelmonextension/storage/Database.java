@@ -41,7 +41,7 @@ public class Database {
         }
     }
 
-    public void UpdatePixelmonToken() {
+    public void UpdateToken() {
         Map<UUID, Map<TokenTypes.TokenName, Integer>> tokens = Pixelmonextension.registry.getPixelmonTokens();
 
         Connection connection = getConnection();
@@ -96,7 +96,7 @@ public class Database {
     }
 
 
-    public void UpdatePixelmonTokenOfUuid(UUID uuid) {
+    public void UpdateTokenOfUuid(UUID uuid) {
         Map<TokenTypes.TokenName, Integer> tokens = Pixelmonextension.registry.getUnclaimedTokens(uuid);
         Connection connection = getConnection();
         if (connection != null) {

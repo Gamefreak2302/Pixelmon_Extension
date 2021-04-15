@@ -9,7 +9,6 @@ import io.gamefreak.pixelmonextension.token.Pixelmontoken.PixelmonToken;
 import io.gamefreak.pixelmonextension.token.Pixelmontoken.TokenConfigSettings;
 import io.gamefreak.pixelmonextension.token.SpawnTokens.SpawnTokenLists;
 import io.gamefreak.pixelmonextension.token.SpawnTokens.SpawnTokens;
-import io.gamefreak.pixelmonextension.token.Token;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -55,7 +54,7 @@ public class Pixelmonextension {
     @Inject
     public PluginContainer pC;
     public static Pixelmonextension INSTANCE;
-    public static DomainController registry;
+    public static Registry registry;
     public static Database db;
 
     @Inject
@@ -76,7 +75,7 @@ public class Pixelmonextension {
 
         INSTANCE = this;
         CommandRegistry.register();
-        registry = new DomainController();
+        registry = new Registry();
         dbMigrationPath = configDir.resolve("data.mv.db");
         db = new Database();
 
@@ -109,6 +108,7 @@ public class Pixelmonextension {
         db.ReadCatchrates();
         new TokenConfigSettings();
         new SpawnTokenLists();
+        this.logger.info(" ====== " + NAME + " " + VERSION + " has started successfully ====== ");
     }
 
     /**
@@ -154,6 +154,7 @@ public class Pixelmonextension {
                                 token.activate(pokemon, player);
                                 logger.info(player + " has used a " + token.getDisplayName());
                             }//end token valid
+
                         } // end check entity
                     }// end check tokentype
                 }//end check isToken
@@ -191,6 +192,7 @@ public class Pixelmonextension {
 
         }
     }
+
 
 
 

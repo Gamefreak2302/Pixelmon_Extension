@@ -63,7 +63,7 @@ public class GiveToken implements CommandExecutor {
             }
                 else{
                 Pixelmonextension.registry.addUnclaimedToken(player.getUniqueId(),token.getName(),amount);
-                Pixelmonextension.db.UpdatePixelmonTokenOfUuid(player.getUniqueId());
+                Pixelmonextension.db.UpdateTokenOfUuid(player.getUniqueId());
                 src.sendMessage(Text.of(TextColors.GREEN, token.getName().name() + " token(s) sent"));
             }
         }else{
@@ -71,7 +71,7 @@ public class GiveToken implements CommandExecutor {
             Pixelmonextension.registry.addUnclaimedToken(player.getUniqueId(),token.getName(),amount);
             if (player.isOnline())
                 player.getPlayer().get().sendMessage(Text.of(TextColors.RED,"Some tokens were sent to your token list, please use /token balance redeem to redeem"));
-            Pixelmonextension.db.UpdatePixelmonTokenOfUuid(player.getUniqueId());
+            Pixelmonextension.db.UpdateTokenOfUuid(player.getUniqueId());
 
         }
         return CommandResult.success();

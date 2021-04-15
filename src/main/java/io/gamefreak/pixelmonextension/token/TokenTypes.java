@@ -2,6 +2,8 @@ package io.gamefreak.pixelmonextension.token;
 
 import io.gamefreak.pixelmonextension.token.Pixelmontoken.*;
 import io.gamefreak.pixelmonextension.token.SpawnTokens.*;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 public class TokenTypes {
 
@@ -28,6 +30,27 @@ public class TokenTypes {
         }
 
         return null;
+    }
+
+    public static boolean isToken(ItemStack stack){
+
+
+        //check spawn token true
+        if((stack.toContainer().get(DataQuery.of("UnsafeData", "IsSpawnToken")).isPresent()
+        &&  stack.toContainer().getBoolean(DataQuery.of("UnsafeData", "IsSpawnToken")).get())
+        //check pixelmon token
+        || (stack.toContainer().get(DataQuery.of("UnsafeData", "IsToken")).isPresent() &&
+                 stack.toContainer().getBoolean(DataQuery.of("UnsafeData", "IsToken")).get())
+        ){
+            // check if tokentype is present and is valid
+            if(stack.toContainer().get(DataQuery.of("UnsafeData", "TokenType")).isPresent()
+                && getTokenNameFromString(stack.toContainer().getString(DataQuery.of("UnsafeData", "TokenType")).get()) != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     /**

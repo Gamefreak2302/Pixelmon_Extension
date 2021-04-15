@@ -26,7 +26,7 @@ public class CommandRegistry {
                             .description(Text.of(TextColors.GOLD, "Give token"))
                             .permission("pixelmonextension.admin.give").build(), "give")
                     .child(CommandSpec.builder()
-                            .executor(new ReadToken())
+                            .executor(new Balance())
                             .arguments(
                                     GenericArguments.optional(GenericArguments.user(Text.of("player")))
                             )
@@ -56,6 +56,17 @@ public class CommandRegistry {
                             .executor(new Reload())
                             .description(Text.of(TextColors.GOLD, "Reloads configs"))
                             .permission("pixelmonextension.admin.reload").build(), "reload")
+                    .child(
+                            CommandSpec.builder()
+                                    .executor(new Convert())
+                                    .description(Text.of(TextColors.GOLD,"Convert between physical and virtual tokens"))
+                                    .arguments(
+                                            GenericArguments.optionalWeak(GenericArguments.enumValue(Text.of("token"), TokenTypes.TokenName.class)),
+                                            GenericArguments.optionalWeak(GenericArguments.integer(Text.of("amount")))
+                                    ).permission("pixelmonextension.convert")
+                                    .build(),
+                            "convert"
+                    )
 
                     .build();
 

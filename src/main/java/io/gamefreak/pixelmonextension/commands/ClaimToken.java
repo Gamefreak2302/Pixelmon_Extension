@@ -46,7 +46,7 @@ public class ClaimToken implements CommandExecutor {
 
             if(Pixelmonextension.registry.claimToken(player.getUniqueId(),tokenname,amount)){
                 player.getInventory().first().offer(ItemStack.builder().from(token.getItem()).quantity(amount).build());
-                Pixelmonextension.db.UpdatePixelmonTokenOfUuid(player.getUniqueId());
+                Pixelmonextension.db.UpdateTokenOfUuid(player.getUniqueId());
                 return success;
             }
         }

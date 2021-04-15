@@ -17,7 +17,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 
 group = 'io.gamefreak'
-version = '0.1-Alpha'
+version = '0.1-Beta'
 archivesBaseName = 'pixelmonextension'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
@@ -36,21 +36,7 @@ minecraft {
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
-        client {
-            workingDirectory project.file('run')
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                guimenus {
-                    source sourceSets.main
-                }
-            }
-        }
 
         server {
             workingDirectory project.file('run')
@@ -62,7 +48,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                guimenus {
+                pixelmonextension {
                     source sourceSets.main
                 }
             }
