@@ -2,15 +2,17 @@ package io.gamefreak.pixelmonextension.token.SpawnTokens;
 
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import io.gamefreak.pixelmonextension.Pixelmonextension;
+import io.gamefreak.pixelmonextension.token.TokenTypes;
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SpawnTokenLists {
 
     private static List<EnumSpecies> UBList,LegendList, RegularList,AllPokemonList,Blacklist;
+    private static Map<TokenTypes.TokenName,List<EnumSpecies>> typeBlacklist;
 
     public SpawnTokenLists(){
 
@@ -19,6 +21,7 @@ public class SpawnTokenLists {
         RegularList = new ArrayList<>();
         Blacklist = new ArrayList<>();
         AllPokemonList = new ArrayList<>();
+        typeBlacklist = new HashMap<>();
 
         try {
             CommentedConfigurationNode nodes = Pixelmonextension.INSTANCE.mainConfig.load();
@@ -30,6 +33,7 @@ public class SpawnTokenLists {
                     }
                 }
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();

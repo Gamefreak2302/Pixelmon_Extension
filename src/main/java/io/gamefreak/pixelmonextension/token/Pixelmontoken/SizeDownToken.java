@@ -35,7 +35,10 @@ public class SizeDownToken extends PixelmonToken {
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified."));
             return false;
         }
-
+        if(getBlacklist().contains(pokemon.getSpecies()) || getBlacklist().stream().map(s -> pokemon.getDisplayName().contains(s.name)).findAny().isPresent()){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified with this token"));
+            return false;
+        }
         return true;
     }
 

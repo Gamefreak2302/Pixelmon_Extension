@@ -1,6 +1,7 @@
 package io.gamefreak.pixelmonextension.token;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -12,6 +13,7 @@ public interface Token {
 
 
 
+    List<EnumSpecies> getBlacklist();
     /**
      * Give information about a token
      * @return information
@@ -43,7 +45,7 @@ public interface Token {
      * @param damage Metadata of the token (to seperate colors)
      * @return Itemstack
      */
-    public ItemStack createItem(ItemType type, int damage);
+    public ItemStack createItem(ItemType type, int damage,List<Text> lore);
 
     /**
      * reads and changes data following the configs

@@ -34,7 +34,10 @@ public class RandomSizeToken extends PixelmonToken {
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified."));
             return false;
         }
-
+        if(getBlacklist().contains(pokemon.getSpecies()) || getBlacklist().stream().map(s -> pokemon.getDisplayName().contains(s.name)).findAny().isPresent()){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified with this token"));
+            return false;
+        }
         return true;
     }
 
@@ -51,7 +54,7 @@ public class RandomSizeToken extends PixelmonToken {
             size = sizes.get(0);
         }
 
-        player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + "has now a size of " + size.name()));
+        player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + " has now a size of " + size.name()));
         pokemon.setGrowth(size);
     }
 

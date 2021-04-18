@@ -24,8 +24,6 @@ public class GenderToken extends PixelmonToken{
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
 
-
-
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
             player.sendMessage(Text.of(TextColors.RED,"This pokemon is not yours."));
             return false;
@@ -36,6 +34,10 @@ public class GenderToken extends PixelmonToken{
         }
         if(pokemon.getGender() == Gender.None){
             player.sendMessage(Text.of( TextColors.RED,"Gender can not be switched, because pokemon has no gender."));
+            return false;
+        }
+        if(getBlacklist().contains(pokemon.getSpecies()) || getBlacklist().stream().map(s -> pokemon.getDisplayName().contains(s.name)).findAny().isPresent()){
+            player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified with this token"));
             return false;
         }
 

@@ -62,6 +62,7 @@ public class Pixelmonextension {
     public Path configDir;
 
     public ConfigurationLoader<CommentedConfigurationNode> mainConfig;
+    public ConfigurationLoader<CommentedConfigurationNode> databaseConfig;
 
     public static Path dbMigrationPath;
 
@@ -92,7 +93,22 @@ public class Pixelmonextension {
                 });
 
         }
+
+        if (!Files.exists(configDir.resolve("database.conf"))) {
+            //Sponge.getAssetManager().getAsset(pC, "main.conf").get().copyToFile(configDir.resolve("main.conf"));
+            pC.getAsset("database.conf").ifPresent(asset -> {
+                try {
+                    //configDir.resolve("main.conf");
+                    asset.copyToDirectory(configDir);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            });
+
+        }
         mainConfig = HoconConfigurationLoader.builder().setPath(configDir.resolve("main.conf")).build();
+        databaseConfig = HoconConfigurationLoader.builder().setPath(configDir.resolve("database.conf")).build();
 
 
 
@@ -119,7 +135,7 @@ public class Pixelmonextension {
     public void reload(){
 
         registry.clearLists();
-
+        db = new Database();
         db.ReadTokens();
         db.ReadCatchrates();
         new TokenConfigSettings();
@@ -185,15 +201,34 @@ public class Pixelmonextension {
     public void onBlockPlaced(ChangeBlockEvent.Place e) {
         if (e.getSource() instanceof Player) {
             //prevent token from being placed (by accident)
-            ItemStackSnapshot item = e.getCause().getContext().get(EventContextKeys.USED_ITEM).get();
-            if (item.toContainer().get(DataQuery.of("UnsafeData", "IsToken")).isPresent() && (boolean) item.toContainer().get(DataQuery.of("UnsafeData", "IsToken")).get()) {
-                e.setCancelled(true);
+            if(e.getCause().getContext().get(EventContextKeys.USED_ITEM).isPresent()) {
+                ItemStackSnapshot item = e.getCause().getContext().get(EventContextKeys.USED_ITEM).get();
+                if (item.toContainer().get(DataQuery.of("UnsafeData", "IsToken")).isPresent() && (boolean) item.toContainer().get(DataQuery.of("UnsafeData", "IsToken")).get()) {
+                    e.setCancelled(true);
+                }
+
+                if (item.toContainer().get(DataQuery.of("UnsafeData", "IsSpawnToken")).isPresent() && (boolean) item.toContainer().get(DataQuery.of("UnsafeData", "IsSpawnToken")).get()) {
+                    e.setCancelled(true);
+                }
+
             }
 
         }
     }
 
+    public void sendError(String error){
+        if(error == null || error.trim().equalsIgnoreCase("")){
+            return;
+        }else{
+            logger.error(String.format(
+                    "\n========= Pixelmon extension Error Below=========\n" +
+                            "\n" +
+                            "%s\n" +
+                            "\n" +
+                            "========= Pixelmon extension Error Above =========\n", error
+            ));
+        }
 
-
+    }
 
 }

@@ -22,6 +22,7 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +36,28 @@ public abstract class SpawnTokens implements Token {
     protected TokenTypes.TokenName name;
     protected ItemStack item;
 
+    @Override
+    public List<EnumSpecies> getBlacklist() {
+        List<EnumSpecies> species = new ArrayList<>();
+        try {
+            ConfigurationNode nodes = Pixelmonextension.INSTANCE.mainConfig.load();
+            ConfigurationNode Tokens = nodes.getNode("Tokens");
+            ConfigurationNode type = Tokens.getNode(name.name());
+            if(!type.getNode("blacklist").isVirtual()){
+                for(ConfigurationNode node : type.getNode("blacklist").getChildrenList()){
+                    EnumSpecies specie = EnumSpecies.getFromNameAnyCase(node.getString());
+                    if(specie == null){
+                        Pixelmonextension.INSTANCE.logger.error("Pokemon not recognized: " + getName() + " - " + specie.name);
+                    }else{
+                        species.add(specie);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return species;
+    }
 
     @Override
     public abstract List<Text> info();
@@ -66,7 +89,7 @@ public abstract class SpawnTokens implements Token {
      * @param damage Metadata of the token (to seperate colors)
      * @return Itemstack
      */
-    public ItemStack createItem(ItemType type,int damage) {
+    public ItemStack createItem(ItemType type,int damage,List<Text> lore) {
         ItemStack stack = ItemStack.builder().itemType(type)
                 .add(Keys.DISPLAY_NAME, Text.of(TextSerializers.FORMATTING_CODE.deserialize(displayName)))
                 .build();
@@ -83,7 +106,7 @@ public abstract class SpawnTokens implements Token {
         Enchantment en = Enchantment.builder().type(EnchantmentTypes.UNBREAKING).level(1).build();
         List<Enchantment> ens = Arrays.asList(en);
         stack.offer(Keys.ITEM_ENCHANTMENTS,ens);
-        stack.offer(Keys.ITEM_LORE,info());
+        stack.offer(Keys.ITEM_LORE,lore);
 
         //EnchantmentData enchantmentData = stack.getOrCreate(EnchantmentData.class).get();
         return stack;
@@ -142,8 +165,23 @@ public abstract class SpawnTokens implements Token {
                 Pixelmonextension.INSTANCE.logger.error("item id of \"" + name.name() + "\" is missing");
             }
 
-            this.item = createItem(itemtype,damage);
-
+            List<Text> lore = new ArrayList<>();
+            if(!type.getNode("Lore").isVirtual()){
+                for(ConfigurationNode node:type.getNode("Lore").getChildrenList()){
+                    if(!node.getString().trim().equals("")){
+                        lore.add(Text.of(TextSerializers.FORMATTING_CODE.deserialize(node.getString())));
+                    }
+                }
+                if(lore.size() == 0){
+                    lore = info();
+                }else{
+                    lore.add(Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+                }
+            }
+            else {
+                lore = info();
+            }
+            this.item = createItem(itemtype,damage,lore);
 
         } catch (IOException e) {
             e.printStackTrace();

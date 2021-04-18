@@ -67,6 +67,12 @@ public class CommandRegistry {
                                     .build(),
                             "convert"
                     )
+                    .child(
+                            CommandSpec.builder()
+                                    .executor(new TransferData())
+                                    .permission("pixelmonextension.admin.transferdata")
+                                    .build(),"transferdata"
+                    )
 
                     .build();
 

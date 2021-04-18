@@ -17,6 +17,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.HoverAction;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.Map;
 
@@ -54,12 +55,14 @@ public class Balance implements CommandExecutor {
         src.sendMessage(Text.of(TextColors.YELLOW,header));
         Map<TokenTypes.TokenName,Integer> tokens = Pixelmonextension.registry.getUnclaimedTokens(user.getUniqueId());
         for(Map.Entry<TokenTypes.TokenName,Integer> entry :tokens.entrySet()){
-            if(us == null){
-                Text text = Text.of(TextColors.YELLOW, entry.getKey() + ":" + entry.getValue())
+            if(entry.getValue() != 0){
+                Token token = TokenTypes.getTokenFromTokenName(entry.getKey());
+
+                if(us == null){
+                Text text = Text.of(TextSerializers.FORMATTING_CODE.deserialize("&6- " +  token.getDisplayName() + " &6: " + entry.getValue() ))
                         .toBuilder()
                         .onClick(TextActions.executeCallback(r -> {
                             if(entry.getValue() > 0 ){
-                                Token token = TokenTypes.getTokenFromTokenName(entry.getKey());
                                 ItemStack stack = ItemStack.builder().from(token.getItem()).quantity(1).build();
                                 if(user.getInventory().first().canFit(stack)){
                                     user.getInventory().first().offer(stack);
@@ -83,7 +86,8 @@ public class Balance implements CommandExecutor {
 
 
             }else{
-                src.sendMessage(Text.of(TextColors.YELLOW, entry.getKey() + ":" + entry.getValue()));
+                    Text text = Text.of(TextSerializers.FORMATTING_CODE.deserialize("&6- " +  token.getDisplayName() + " &6: " + entry.getValue() ));
+            }
             }
         }
 

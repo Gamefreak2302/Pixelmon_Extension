@@ -2,6 +2,7 @@ package io.gamefreak.pixelmonextension.token.Pixelmontoken;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 
+import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import io.gamefreak.pixelmonextension.Pixelmonextension;
 import io.gamefreak.pixelmonextension.token.Token;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
@@ -16,9 +17,11 @@ import org.spongepowered.api.item.enchantment.Enchantment;
 import org.spongepowered.api.item.enchantment.EnchantmentTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +36,33 @@ public abstract class PixelmonToken implements Token {
     protected ItemStack item;
 
 
+    /**
+     * Read blacklist for specific token
+     * @return enumspecies with blacklist
+     */
+    @Override
+    public List<EnumSpecies> getBlacklist() {
+        List<EnumSpecies> species = new ArrayList<>();
+        try {
+            ConfigurationNode nodes = Pixelmonextension.INSTANCE.mainConfig.load();
+            ConfigurationNode Tokens = nodes.getNode("Tokens");
+            ConfigurationNode type = Tokens.getNode(name.name());
+            if(!type.getNode("blacklist").isVirtual()){
+                for(ConfigurationNode node : type.getNode("blacklist").getChildrenList()){
+                    try{
+                        EnumSpecies specie = EnumSpecies.getFromNameAnyCase(node.getString());
+                        species.add(specie);
+                    }catch(NullPointerException ex){
+                        Pixelmonextension.INSTANCE.logger.error("Pokemon not recognized: " + getName() + " - " + node.getString());
+                    }
+
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return species;
+    }
     /**
      * Will check if the effect of the effect is available
      * The effect is available when the condition is not met.
@@ -91,7 +121,7 @@ public abstract class PixelmonToken implements Token {
      * @param damage Metadata of the token (to seperate colors)
      * @return Itemstack
      */
-    public ItemStack createItem(ItemType type,int damage) {
+    public ItemStack createItem(ItemType type,int damage,List<Text> lore) {
         ItemStack stack = ItemStack.builder().itemType(type)
                 .add(Keys.DISPLAY_NAME, Text.of(TextSerializers.FORMATTING_CODE.deserialize(displayName)))
                 .build();
@@ -108,7 +138,7 @@ public abstract class PixelmonToken implements Token {
         Enchantment en = Enchantment.builder().type(EnchantmentTypes.UNBREAKING).level(1).build();
         List<Enchantment> ens = Arrays.asList(en);
         stack.offer(Keys.ITEM_ENCHANTMENTS,ens);
-        stack.offer(Keys.ITEM_LORE,info());
+        stack.offer(Keys.ITEM_LORE,lore);
 
         //EnchantmentData enchantmentData = stack.getOrCreate(EnchantmentData.class).get();
         return stack;
@@ -121,14 +151,14 @@ public abstract class PixelmonToken implements Token {
      */
     public boolean setInfo() {
         try {
-            ItemType itemtype = null;
+            ItemType itemtype;
 
             ConfigurationNode nodes = Pixelmonextension.INSTANCE.mainConfig.load();
             ConfigurationNode Tokens = nodes.getNode("Tokens");
             ConfigurationNode type = Tokens.getNode(name.name());
 
             if (type == null) {
-                Pixelmonextension.INSTANCE.logger.error("Could not read token data");
+                Pixelmonextension.INSTANCE.sendError("Could not read token data");
                 return false;
             }
 
@@ -154,19 +184,37 @@ public abstract class PixelmonToken implements Token {
                         itemtype = Sponge.getRegistry().getType(ItemType.class, itemid).get();
                     } else {
                         itemtype = ItemTypes.NETHER_STAR;
-                        Pixelmonextension.INSTANCE.logger.error(itemid + " is not a valid item");
+                        Pixelmonextension.INSTANCE.sendError(itemid + " is not a valid item, setting item netherstar");
+                        type.getNode("id").setValue("minecraft:nether_star");
                     }
 
                 } else {
                     itemtype = ItemTypes.NETHER_STAR;
-                    Pixelmonextension.INSTANCE.logger.error("item id of " + name.name() + " is invalid or missing");
+                    Pixelmonextension.INSTANCE.sendError("item id of " + name.name() + " is invalid or missing, setting item netherstar");
+                    type.getNode("id").setValue("minecraft:nether_star");
                 }
             }else{
                 itemtype = ItemTypes.NETHER_STAR;
-                Pixelmonextension.INSTANCE.logger.error("item id of \"" + name.name() + "\" is missing");
+                Pixelmonextension.INSTANCE.sendError("item id of \"" + name.name() + "\" is missing, setting item netherstar");
+                type.getNode("id").setValue("minecraft:nether_star");
             }
-
-            this.item = createItem(itemtype,damage);
+            List<Text> lore = new ArrayList<>();
+            if(!type.getNode("lore").isVirtual()){
+                for(ConfigurationNode node:type.getNode("lore").getChildrenList()){
+                    if(!node.getString().trim().equals("")){
+                        lore.add(Text.of(TextSerializers.FORMATTING_CODE.deserialize(node.getString())));
+                    }
+                }
+                if(lore.size() == 0){
+                    lore = info();
+                }else{
+                    lore.add(Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+                }
+            }
+            else {
+                lore = info();
+            }
+            this.item = createItem(itemtype,damage,lore);
 
 
         } catch (IOException e) {

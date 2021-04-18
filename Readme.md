@@ -12,10 +12,7 @@ So far this plugin contains:
 
 Planned additions:
 
-- Make external database possible  
-- Add blacklist different from each token (like necrozma immune for form token)
-- Better error handler ( make errors more visible )
-- Make lore customizable ( the id will stay )  
+- Make transferdata work in 2 ways (instead of 1 time use and stuck on original db) <-- backups?
 - Translations ( english - dutch ) ?? ( not determined yet )
 ## Commands
 
@@ -58,7 +55,12 @@ Permission: pixelmonextension.admin.reload
 ### Convert
 Usage: /token convert (< Tokenname >) (< amount >)  
 Description: Convert tokens from physical to virtual form and from virtual to physical  
-Permission: pixelmonextension.convert  
+Permission: pixelmonextension.convert 
+
+### Transferdata 
+usage: /token transferdata  
+Description: read data from database file and insert it in external database  
+Permission: pixelmonextension.admin.transferdata 
 
 ### Extra notes
 - Tokens can not be placed 
