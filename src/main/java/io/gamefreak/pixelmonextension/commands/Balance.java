@@ -87,7 +87,8 @@ public class Balance implements CommandExecutor {
 
             }else{
                     Text text = Text.of(TextSerializers.FORMATTING_CODE.deserialize("&6- " +  token.getDisplayName() + " &6: " + entry.getValue() ));
-            }
+                    src.sendMessage(text);
+                }
             }
         }
 
