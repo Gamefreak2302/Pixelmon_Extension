@@ -26,7 +26,7 @@ public class AbilityToken extends PixelmonToken{
             player.sendMessage(Text.of(TextColors.RED,"This is not your pokemon"));
             return false;
         }
-        if(pokemon.getBaseStats().abilities.length == 1){
+        if(pokemon.getBaseStats().getAbilitiesArray().length == 1){
             player.sendMessage(Text.of(TextColors.RED, pokemon.getDisplayName() + " does not have a different ability"));
             return false;
         }
@@ -42,7 +42,7 @@ public class AbilityToken extends PixelmonToken{
             return false;
         }
 
-        if(getBlacklist().contains(pokemon.getSpecies()) || getBlacklist().stream().map(s -> pokemon.getDisplayName().contains(s.name)).findAny().isPresent()){
+        if(getBlacklist().contains(pokemon.getSpecies())){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified with this token"));
             return false;
         }
@@ -57,10 +57,10 @@ public class AbilityToken extends PixelmonToken{
         int number = -1;
         if(pokemon.getAbilitySlot() == 0){
             number = 1;
-            ab = AbilityBase.getAbility(pokemon.getBaseStats().abilities[1]).get();
+            ab = AbilityBase.getAbility(pokemon.getBaseStats().getAbilitiesArray()[1]).get();
         }else{
             number = 0;
-            ab = AbilityBase.getAbility(pokemon.getBaseStats().abilities[0]).get();
+            ab = AbilityBase.getAbility(pokemon.getBaseStats().getAbilitiesArray()[0]).get();
         }
 
         pokemon.setAbilitySlot(number);

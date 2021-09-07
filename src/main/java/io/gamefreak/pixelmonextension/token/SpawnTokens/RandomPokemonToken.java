@@ -17,6 +17,7 @@ public class RandomPokemonToken extends SpawnTokens{
         this.displayName = "&aRandom pokemon token";
         setInfo();
     }
+
     @Override
     public void activate(Player player) {
 

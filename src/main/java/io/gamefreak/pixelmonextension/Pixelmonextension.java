@@ -3,6 +3,9 @@ package io.gamefreak.pixelmonextension;
 import com.google.inject.Inject;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
+import com.pixelmonmod.pixelmon.entities.pixelmon.abilities.AbilityBase;
+import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
+import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import io.gamefreak.pixelmonextension.commands.CommandRegistry;
 import io.gamefreak.pixelmonextension.storage.Database;
 import io.gamefreak.pixelmonextension.token.Pixelmontoken.PixelmonToken;
@@ -16,15 +19,22 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.animal.Chicken;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.cause.EventContextKeys;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
+import org.spongepowered.api.event.entity.SpawnEntityEvent;
+import org.spongepowered.api.event.entity.projectile.TargetProjectileEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.item.inventory.InteractItemEvent;
+import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
@@ -33,6 +43,9 @@ import org.spongepowered.api.plugin.PluginContainer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 import static io.gamefreak.pixelmonextension.ServerStats.*;
 
@@ -125,6 +138,69 @@ public class Pixelmonextension {
         new TokenConfigSettings();
         new SpawnTokenLists();
         this.logger.info(" ====== " + NAME + " " + VERSION + " has started successfully ====== ");
+        String st = "";
+        EnumSpecies[] spe = {EnumSpecies.Mew , EnumSpecies.Celebi, EnumSpecies.Jirachi, EnumSpecies.Deoxys
+                , EnumSpecies.Manaphy , EnumSpecies.Phione , EnumSpecies.Darkrai, EnumSpecies.Arceus, EnumSpecies.Shaymin,
+                EnumSpecies.Keldeo, EnumSpecies.Meloetta, EnumSpecies.Victini, EnumSpecies.Genesect, EnumSpecies.Diancie,
+                EnumSpecies.Hoopa, EnumSpecies.Volcanion, EnumSpecies.Magearna, EnumSpecies.Zeraora , EnumSpecies.Marshadow,
+                EnumSpecies.Meltan, EnumSpecies.Melmetal, EnumSpecies.Zarude
+
+        };
+        List<EnumSpecies> mythical = Arrays.asList(spe);
+ /*       for(EnumSpecies species: EnumSpecies.values()){
+
+            System.out.printf("INSERT INTO [dbo].[Pokemon3]"+
+                    "     VALUES\n" +
+                    "(<id, int,>\n" +
+                    ",<Type_1, varchar(255),>\n" +
+                    ",<Type_2, varchar(255),>\n" +
+                    ",<Attack, int,>\n" +
+                    ",<Defense, int,>\n" +
+                    ",<Generation, int,>\n" +
+                    ",<Hidden_Ability, varchar(255),>\n" +
+                    ",<Hp, int,>\n" +
+                    ",<Legendary, bit,>\n" +
+                    ",<Mythical, bit,>\n" +
+                    ",<Name, varchar(255),>\n" +
+                    ",<Sp_Atk, int,>\n" +
+                    ",<Sp_Def, int,>\n" +
+                    ",<Speed, int,>\n" +
+                    ",<Total, int,>\n" +
+                    ",<Ub, bit,>\n" +
+                    ",<previousEvolution, int,>)");
+
+
+             st += "INSERT INTO [dbo].[Pokemon3]"+
+                    "     VALUES(\n" +
+                    + species.getNationalPokedexInteger() + "," +
+                     "\'" + species.getBaseStats().getType1() + "\'" + "," +
+                     "\'" + species.getBaseStats() .getType2() + "\'" + "," +
+                    species.getBaseStats().getStat(StatsType.Attack) + "," +
+                    species.getBaseStats().getStat(StatsType.Defence) + "," +
+                    species.getGeneration() + "," +
+                    //HA
+                    (species.getBaseStats().getAbilitiesArray()[2]!=null && species.getBaseStats().getAbilitiesArray()[2] != species.getBaseStats().getAbilitiesArray()[0] && species.getBaseStats().getAbilitiesArray()[2] != species.getBaseStats().getAbilitiesArray()[1]?
+                            "\'" +AbilityBase.getAbility( species.getBaseStats().getAbilitiesArray()[2] ).get().getLocalizedName() + "\'":null) + "," +
+                    species.getBaseStats().getStat(StatsType.HP) + "," +
+                    (species.isLegendary()? (mythical.contains(species)?"0,1":"1,0") :"0 , 0") + "," +
+                     "\'" +species.name + "\'" + "," +
+                    species.getBaseStats().getStat(StatsType.SpecialAttack) + "," +
+                    species.getBaseStats().getStat(StatsType.SpecialDefence) + "," +
+                    species.getBaseStats().getStat(StatsType.Speed) + "," +
+                            (species.getBaseStats().getStat(StatsType.Attack)
+                                    + species.getBaseStats().getStat(StatsType.Defence)
+                                    + species.getBaseStats().getStat(StatsType.HP)
+                                    + species.getBaseStats().getStat(StatsType.SpecialAttack)
+                                    + species.getBaseStats().getStat(StatsType.SpecialDefence)
+                                    + species.getBaseStats().getStat(StatsType.Speed)
+                            ) + "," + (species.isUltraBeast()?1:0) + "," +
+                            (species.getBaseStats().preEvolutions.length > 0? Arrays.stream(species.getBaseStats().legacyPreEvolutions).sorted(Comparator.comparing(s -> species.getNationalPokedexInteger()).reversed()).findFirst().get().getNationalPokedexInteger():null) + ")\n";
+
+
+        }
+        System.out.println(st);
+         */
+
     }
 
     /**
@@ -213,6 +289,8 @@ public class Pixelmonextension {
 
             }
 
+
+
         }
     }
 
@@ -230,5 +308,6 @@ public class Pixelmonextension {
         }
 
     }
+
 
 }

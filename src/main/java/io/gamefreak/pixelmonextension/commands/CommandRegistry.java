@@ -1,6 +1,8 @@
 package io.gamefreak.pixelmonextension.commands;
 
+import com.codehusky.huskycrates.command.CommandRegister;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
+import com.pixelmonmod.pixelmon.enums.EnumType;
 import io.gamefreak.pixelmonextension.Pixelmonextension;
 import io.gamefreak.pixelmonextension.token.TokenTypes;
 import org.spongepowered.api.Sponge;
@@ -19,7 +21,7 @@ public class CommandRegistry {
                             .executor(new GiveToken())
                             .arguments(
                                     GenericArguments.enumValue(Text.of("token"), TokenTypes.TokenName.class),
-                                    GenericArguments.optionalWeak(GenericArguments.user(Text.of("player"))) ,
+                                    GenericArguments.optional(GenericArguments.user(Text.of("player"))) ,
                                     GenericArguments.optionalWeak(GenericArguments.integer(Text.of("amount")))
 
                             )
@@ -41,18 +43,6 @@ public class CommandRegistry {
                             .description(Text.of(TextColors.GOLD, "Read tokens and the amount"))
                             .permission("pixelmonextension.claim").build(), "claim")
                     .child(CommandSpec.builder()
-                            .executor(new ChangeCatchrate())
-                            .arguments(
-                                    GenericArguments.firstParsing(GenericArguments.enumValue(Text.of("species"), EnumSpecies.class)),
-                                    GenericArguments.optional(GenericArguments.integer(Text.of("rate")))
-                            )
-                            .description(Text.of(TextColors.GOLD, "Change catchrate of a pokemon"))
-                            .permission("pixelmonextension.admin.changecatchrate").build(), "changecatchrate")
-                    .child(CommandSpec.builder()
-                            .executor(new ReadCatchrate())
-                            .description(Text.of(TextColors.GOLD, "Get updated catchrates"))
-                            .permission("pixelmonextension.admin.readcatchrate").build(), "readcatchrates")
-                    .child(CommandSpec.builder()
                             .executor(new Reload())
                             .description(Text.of(TextColors.GOLD, "Reloads configs"))
                             .permission("pixelmonextension.admin.reload").build(), "reload")
@@ -72,9 +62,30 @@ public class CommandRegistry {
                                     .executor(new TransferData())
                                     .permission("pixelmonextension.admin.transferdata")
                                     .build(),"transferdata"
+                    ).child(
+                            CommandSpec.builder()
+                                    .executor(new RandomTypeCommand())
+                                    .arguments(
+                                            GenericArguments.firstParsing(GenericArguments.enumValue(Text.of("type"), EnumType.class)),
+                                            GenericArguments.optional(GenericArguments.player(Text.of("player"))),
+                                            GenericArguments.firstParsing(new CommandRegister.CrateArgument(Text.of("crate")))
+                                    )
+                                    .permission("pixelmonextension.admin.transferdata")
+                                    .build(), "giveType"
                     )
+                    .child(CommandSpec.builder()
+                            .executor(new RandomEgg())
+                            .arguments(
+                                    GenericArguments.optional(
+                                            GenericArguments.player(Text.of("target"))
+                                    )
+                            )
+                            .permission("pixelmonextension.admin.giveegg")
+                            .build(),"giveegg")
+                    .executor(new HelpCommand())
 
                     .build();
+
 
 
 

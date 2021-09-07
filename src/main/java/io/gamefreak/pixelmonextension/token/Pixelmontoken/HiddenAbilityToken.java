@@ -26,11 +26,11 @@ public class HiddenAbilityToken extends PixelmonToken {
             return false;
         }
 
-        if(pokemon.getAbility().getName().equalsIgnoreCase(pokemon.getBaseStats().abilities[2])){
+        if(pokemon.getAbility().getName().equalsIgnoreCase(pokemon.getBaseStats().getAbilitiesArray()[2])){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does already have his hidden ability"));
             return false;
         }
-        if(pokemon.getBaseStats().abilities[2] == null){
+        if(pokemon.getBaseStats().getAbilitiesArray()[2] == null){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " does not have a hidden ability"));
             return false;
         }
@@ -38,7 +38,7 @@ public class HiddenAbilityToken extends PixelmonToken {
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified."));
             return false;
         }
-        if(getBlacklist().contains(pokemon.getSpecies()) || getBlacklist().stream().map(s -> pokemon.getDisplayName().contains(s.name)).findAny().isPresent()){
+        if(getBlacklist().contains(pokemon.getSpecies())){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified with this token"));
             return false;
         }

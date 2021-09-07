@@ -105,6 +105,25 @@ public class TokenTypes {
                 return new RandomShinyRegularToken();
             case randomPokemon:
                 return new RandomPokemonToken();
+
+            case MaxAtkEvs:
+                return new AtkEvToken();
+            case MaxHPEvs:
+                return new HpEVToken();
+            case MaxDefEvs:
+                return new DefEvToken();
+            case Normalize:
+                return new UnShinyToken();
+            case MaxSpAtkEvs:
+                return new SpAtkEvToken();
+            case MaxSpDefEvs:
+                return new SpDefEvToken();
+            case MaxSpeedEvs:
+                return new SpeedEvToken();
+            case ResetEvs:
+                return new EvsResetToken();
+            case friend:
+                return new FriendToken();
             default:
                 return null;
         }
@@ -118,9 +137,10 @@ public class TokenTypes {
 
         // modify tokens
         Shiny,SizeUp,SizeDown,Gender,MaxHPIvs,MaxAtkIvs,MaxDefIvs,MaxSpAtkIvs,MaxSpDefIvs,MaxSpeedIvs
-        ,Nature,Ability,HiddenAbility,Pokeball, Form,RandomSize
-
+        ,Nature,Ability,HiddenAbility,Pokeball, Form,RandomSize,Normalize
+        , MaxAtkEvs, MaxDefEvs, MaxHPEvs, MaxSpAtkEvs, MaxSpDefEvs, MaxSpeedEvs, randomShinyNonSpecial
+        ,ResetEvs
         //Spawn tokens
-        ,randomPokemon,randomShiny,randomLegend,randomUB,randomNonSpecial,randomShinyNonSpecial
+        ,randomPokemon,randomShiny,randomLegend,randomUB, friend, randomNonSpecial
     }
 }

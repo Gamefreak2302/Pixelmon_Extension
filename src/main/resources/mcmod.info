@@ -1,0 +1,11 @@
+[{
+  "modid": "pixelmonextension",
+  "name": "Pixelmon extension",
+  "description": "Token plugin for pixelmon reforged.",
+  "version": "PRE_0.3",
+  "mcversion": "1.12.2",
+  "authorList": ["Gamefreak_2302"],
+  "credits": "I like to thank pixelmon for making this possible"
+}]
+
+

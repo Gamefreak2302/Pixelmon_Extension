@@ -10,26 +10,25 @@ import org.spongepowered.api.text.format.TextColors;
 import java.util.Arrays;
 import java.util.List;
 
-public class SpeedIvToken extends PixelmonToken {
+public class SpDefEvToken extends PixelmonToken {
 
-    public SpeedIvToken(){
-        this.displayName = "&AMax Speed token";
-        this.name = TokenTypes.TokenName.MaxSpeedIvs;
+    public SpDefEvToken(){
+        this.displayName = "&AMax Special Defense EV token";
+        this.name = TokenTypes.TokenName.MaxSpDefEvs;
         this.setInfo();
         //this.item = createItem(ItemTypes.NETHER_STAR);
     }
 
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
-        if(pokemon.getStats().ivs.getStat(StatsType.Speed) == 31){
-            player.sendMessage(Text.of(TextColors.RED,"Speed already has max ivs"));
+        if(pokemon.getStats().evs.getStat(StatsType.SpecialDefence)== 252){
+            player.sendMessage(Text.of(TextColors.RED,"Special defense already has max evs"));
             return false;
         }
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
             player.sendMessage(Text.of(TextColors.RED,"This is not your pokemon"));
             return false;
         }
-
         if(!TokenConfigSettings.allowModification(pokemon.getSpecies())){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified."));
             return false;
@@ -44,13 +43,13 @@ public class SpeedIvToken extends PixelmonToken {
     @Override
     public void activate(Pokemon pokemon, Player player) {
 
-        pokemon.getIVs().setStat(StatsType.Speed,31);
-        player.sendMessage(Text.of(TextColors.GREEN, pokemon.getDisplayName() + " now has max speed ivs"));
+        pokemon.getEVs().setStat(StatsType.SpecialDefence,252);
+        player.sendMessage(Text.of(TextColors.GREEN, pokemon.getDisplayName() + " now has max special defense evs"));
     }
 
     @Override
     public List<Text> info() {
-        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to maximize their speed IV"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to maximize their special defense EV"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
 
     }
 }

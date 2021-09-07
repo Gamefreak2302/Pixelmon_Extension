@@ -1,8 +1,7 @@
 package io.gamefreak.pixelmonextension.token.Pixelmontoken;
 
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
-import io.gamefreak.pixelmonextension.token.TokenTypes;
+import io.gamefreak.pixelmonextension.token.TokenTypes.TokenName;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -10,23 +9,29 @@ import org.spongepowered.api.text.format.TextColors;
 import java.util.Arrays;
 import java.util.List;
 
-public class SpeedIvToken extends PixelmonToken {
+public class UnShinyToken extends PixelmonToken{
 
-    public SpeedIvToken(){
-        this.displayName = "&AMax Speed token";
-        this.name = TokenTypes.TokenName.MaxSpeedIvs;
+
+    public UnShinyToken() {
+        this.name = TokenName.Normalize;
+        this.displayName = "&7Normalize token";
         this.setInfo();
-        //this.item = createItem(ItemTypes.NETHER_STAR);
+        // this.item = createItem(ItemTypes.NETHER_STAR);
+
+
+
+
     }
 
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
-        if(pokemon.getStats().ivs.getStat(StatsType.Speed) == 31){
-            player.sendMessage(Text.of(TextColors.RED,"Speed already has max ivs"));
+
+        if(!pokemon.isShiny()) {
+            player.sendMessage(Text.of(TextColors.RED,"This pokemon is not shiny."));
             return false;
         }
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
-            player.sendMessage(Text.of(TextColors.RED,"This is not your pokemon"));
+            player.sendMessage(Text.of(TextColors.RED,"This pokemon is not yours."));
             return false;
         }
 
@@ -44,13 +49,14 @@ public class SpeedIvToken extends PixelmonToken {
     @Override
     public void activate(Pokemon pokemon, Player player) {
 
-        pokemon.getIVs().setStat(StatsType.Speed,31);
-        player.sendMessage(Text.of(TextColors.GREEN, pokemon.getDisplayName() + " now has max speed ivs"));
+        player.sendMessage(Text.of(TextColors.GREEN ,pokemon.getDisplayName() + " is no longer shiny"));
+        pokemon.setShiny(false);
+
     }
 
     @Override
     public List<Text> info() {
-        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to maximize their speed IV"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
+        return Arrays.asList(Text.of(TextColors.DARK_PURPLE,"Right-click a Pokemon to turn it non-shiny"),Text.of(TextColors.DARK_GRAY,"token id:" + this.name.name()));
 
     }
 }

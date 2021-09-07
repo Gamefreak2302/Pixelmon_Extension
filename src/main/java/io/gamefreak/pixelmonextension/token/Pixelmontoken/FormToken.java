@@ -26,9 +26,10 @@ public class FormToken extends PixelmonToken{
 
         EnumSpecies[] species = {EnumSpecies.Zygarde,EnumSpecies.Kyogre,EnumSpecies.Groudon,EnumSpecies.Necrozma,EnumSpecies.Kyurem,EnumSpecies.Deoxys,
         EnumSpecies.Thundurus,EnumSpecies.Tornadus,EnumSpecies.Landorus,EnumSpecies.Meloetta,EnumSpecies.Keldeo,EnumSpecies.Xerneas,EnumSpecies.Hoopa, EnumSpecies.Arceus, EnumSpecies.Silvally,
-        EnumSpecies.Shaymin, EnumSpecies.Giratina,EnumSpecies.Cherrim
+        EnumSpecies.Shaymin, EnumSpecies.Giratina,EnumSpecies.Cherrim, EnumSpecies.getFromNameAnyCase("Calyrex")
         };
         List<EnumSpecies> formblacklist = Arrays.asList(species);
+
         if(pokemon.getOwnerPlayerUUID() != player.getUniqueId()){
             player.sendMessage(Text.of(TextColors.RED,"This pokemon is not yours."));
             return false;
@@ -52,7 +53,7 @@ public class FormToken extends PixelmonToken{
             return false;
         }
 
-        if(getBlacklist().contains(pokemon.getSpecies()) || getBlacklist().stream().map(s -> pokemon.getDisplayName().contains(s.name)).findAny().isPresent()){
+        if(getBlacklist().contains(pokemon.getSpecies())){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified with this token"));
             return false;
         }
@@ -73,6 +74,7 @@ public class FormToken extends PixelmonToken{
         pokemon.setForm(form);
         String formname = form.getLocalizedName().equalsIgnoreCase("None")?"Normal":form.getLocalizedName();
         player.sendMessage(Text.of(TextColors.GREEN,pokemon.getDisplayName() + " now has form" + formname ));
+
 
     }
 

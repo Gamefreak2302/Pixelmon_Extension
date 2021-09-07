@@ -51,7 +51,8 @@ public abstract class PixelmonToken implements Token {
                 for(ConfigurationNode node : type.getNode("blacklist").getChildrenList()){
                     try{
                         EnumSpecies specie = EnumSpecies.getFromNameAnyCase(node.getString());
-                        species.add(specie);
+                        if(specie != null)
+                            species.add(specie);
                     }catch(NullPointerException ex){
                         Pixelmonextension.INSTANCE.logger.error("Pokemon not recognized: " + getName() + " - " + node.getString());
                     }

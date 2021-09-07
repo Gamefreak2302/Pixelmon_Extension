@@ -21,7 +21,7 @@ public class AtkIvToken extends PixelmonToken {
 
     @Override
     public boolean checkValid(Pokemon pokemon, Player player) {
-        if(pokemon.getStats().ivs.attack == 31){
+        if(pokemon.getStats().ivs.getStat(StatsType.Attack) == 31){
             player.sendMessage(Text.of(TextColors.RED,"Attack already has max ivs"));
             return false;
         }
@@ -34,7 +34,7 @@ public class AtkIvToken extends PixelmonToken {
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified."));
             return false;
         }
-        if(getBlacklist().contains(pokemon.getSpecies()) || getBlacklist().stream().map(s -> pokemon.getDisplayName().contains(s.name)).findAny().isPresent()){
+        if(getBlacklist().contains(pokemon.getSpecies())){
             player.sendMessage(Text.of(TextColors.RED,pokemon.getDisplayName() + " can not be modified with this token"));
             return false;
         }
@@ -44,7 +44,7 @@ public class AtkIvToken extends PixelmonToken {
     @Override
     public void activate(Pokemon pokemon, Player player) {
 
-        pokemon.getIVs().set(StatsType.Attack,31);
+        pokemon.getIVs().setStat(StatsType.Attack,31);
         player.sendMessage(Text.of(TextColors.GREEN, pokemon.getDisplayName() + " now has max attack ivs"));
     }
 
